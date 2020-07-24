@@ -1,0 +1,213 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Menu/Menu_sistem.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Fonts/BloggerSans_16.tres" type="DynamicFont" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+onready var save_options = get_node(\"/root/SaveGame\")
+
+func _ready():
+	pass
+
+func _process(delta):
+	
+	if !get_node(\"Options anim\").is_playing():
+		
+		 get_node(\"Options anim\").play(\"New Anim\")
+	
+	
+	get_node(\"Buttons/Quality/OptionButton\")._select_int(save_options.quality)
+
+func _on_OptionButton_item_selected(index):
+	
+	if index == 0:
+		ProjectSettings.set(\"rendering/quality/filters/anisotropic_filter_level\",1)
+		ProjectSettings.set(\"rendering/quality/filters/msaa\",0)
+		print(\"set low\")
+		save_options.quality = 0
+	
+	if index == 1:
+		ProjectSettings.set(\"rendering/quality/filters/anisotropic_filter_level\",4)
+		ProjectSettings.set(\"rendering/quality/filters/msaa\",2)
+		print(\"set medium\")
+		save_options.quality = 1
+		
+	if index == 2:
+		ProjectSettings.set(\"rendering/quality/filters/anisotropic_filter_level\",8)
+		ProjectSettings.set(\"rendering/quality/filters/msaa\",4)
+		print(\"set high\")
+		save_options.quality = 2
+		
+
+
+"
+
+[sub_resource type="Animation" id=2]
+resource_name = "New Anim"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Buttons/ColorRect_options:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0.0627451, 0.12549, 0, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Control
+
+onready var Quality_button = get_node(\"Quality/OptionButton\")
+onready var music_player = get_node(\"/root/Music\").play_music
+onready var save_options = get_node(\"/root/SaveGame\")
+
+func _ready():
+	Quality_button.add_item(\"Low\")
+	Quality_button.add_item(\"Medium\")
+	Quality_button.add_item(\"High\")
+
+
+
+
+func _on_Button_pressed():
+	get_tree().change_scene(\"res://Scenes/MainMenu.tscn\")
+
+
+func _on_Checkbox_pressed():
+	if get_node(\"/root/Music\").play_music == 0:
+		get_node(\"/root/Music\").play_music = 1
+		print(\"1\")
+		return 0
+		
+	if get_node(\"/root/Music\").play_music == 1:
+		get_node(\"/root/Music\").play_music = 0
+		print(\"0\")
+		
+"
+
+[sub_resource type="Theme" id=4]
+CheckButton/colors/font_color = Color( 1, 1, 1, 1 )
+CheckButton/colors/font_color_disabled = Color( 0.901961, 0.901961, 0.901961, 0.2 )
+CheckButton/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
+CheckButton/colors/font_color_hover_pressed = Color( 1, 1, 1, 1 )
+CheckButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+CheckButton/constants/check_vadjust = 0
+CheckButton/constants/hseparation = 4
+CheckButton/fonts/font = ExtResource( 2 )
+CheckButton/icons/off = null
+CheckButton/icons/off_disabled = null
+CheckButton/icons/on = null
+CheckButton/icons/on_disabled = null
+CheckButton/styles/disabled = null
+CheckButton/styles/focus = null
+CheckButton/styles/hover = null
+CheckButton/styles/hover_pressed = null
+CheckButton/styles/normal = null
+CheckButton/styles/pressed = null
+
+[node name="Optons_main" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="Options anim" type="AnimationPlayer" parent="."]
+"anims/New Anim" = SubResource( 2 )
+
+[node name="Menu_sistem" parent="." instance=ExtResource( 1 )]
+
+[node name="Buttons" type="Control" parent="."]
+margin_left = 512.0
+margin_right = 1024.0
+margin_bottom = 600.0
+script = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect_options" type="ColorRect" parent="Buttons"]
+modulate = Color( 1, 1, 1, 0.686275 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0627451, 0.12549, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Music_label" type="Label" parent="Buttons"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -192.0
+margin_top = -140.0
+margin_right = -136.0
+margin_bottom = -105.0
+custom_fonts/font = ExtResource( 2 )
+text = "Music
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Checkbox" type="Button" parent="Buttons/Music_label"]
+margin_left = 248.0
+margin_top = -16.0
+margin_right = 324.0
+margin_bottom = 24.0
+focus_mode = 0
+theme = SubResource( 4 )
+action_mode = 0
+enabled_focus_mode = 0
+text = "On/Off"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quality" type="Label" parent="Buttons"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -192.0
+margin_top = -44.0
+margin_right = -108.0
+margin_bottom = -9.0
+custom_fonts/font = ExtResource( 2 )
+text = "Video Quality
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionButton" type="OptionButton" parent="Buttons/Quality"]
+margin_left = 240.0
+margin_right = 332.0
+margin_bottom = 24.0
+focus_mode = 0
+custom_fonts/font = ExtResource( 2 )
+enabled_focus_mode = 0
+text = "Select"
+flat = true
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Buttons"]
+margin_top = 64.0
+margin_right = 88.0
+margin_bottom = 120.0
+focus_mode = 0
+custom_fonts/font = ExtResource( 2 )
+enabled_focus_mode = 0
+text = "Back"
+flat = true
+[connection signal="pressed" from="Buttons/Music_label/Checkbox" to="Buttons" method="_on_Checkbox_pressed"]
+[connection signal="toggled" from="Buttons/Music_label/Checkbox" to="Buttons" method="_on_Button_toggled"]
+[connection signal="item_selected" from="Buttons/Quality/OptionButton" to="." method="_on_OptionButton_item_selected"]
+[connection signal="pressed" from="Buttons/Button" to="Buttons" method="_on_Button_pressed"]

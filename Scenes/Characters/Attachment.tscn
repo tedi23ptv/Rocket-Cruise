@@ -1,0 +1,177 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Fonts/BloggerSans_16.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Other assets/cage_door.png" type="Texture" id=2]
+[ext_resource path="res://Other assets/cage.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody2D
+var timer = 0
+var closed = true
+
+func _process(delta):
+	if timer<100:
+		timer += 1
+	if timer==100:
+		
+		if Input.is_action_pressed(\"close\") and closed == false:
+			$AnimationPlayer.play(\"CloseDoor\")
+			closed = true
+			timer = 0
+			return 0
+		if Input.is_action_pressed(\"close\") and closed == true:
+			$AnimationPlayer.play(\"OpenDoor\")
+			closed = false
+			timer = 0
+			return 0
+		
+	$Label.set_text(var2str(timer))
+"
+
+[sub_resource type="Animation" id=2]
+resource_name = "CloseDoor"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Door1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -28, -8 ), Vector2( 32, -8 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Door2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 164, -8 ), Vector2( 112, -8 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "OpenDoor"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Door1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 30, -8 ), Vector2( -28, -8 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Door2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 110, -8 ), Vector2( 164, -8 ) ]
+}
+
+[sub_resource type="CapsuleShape2D" id=4]
+radius = 7.0
+height = 66.0
+
+[sub_resource type="CapsuleShape2D" id=5]
+radius = 7.0
+height = 66.0
+
+[sub_resource type="CapsuleShape2D" id=6]
+radius = 12.0
+height = 120.0
+
+[sub_resource type="CapsuleShape2D" id=7]
+radius = 12.0
+height = 120.0
+
+[sub_resource type="CapsuleShape2D" id=8]
+radius = 11.3331
+height = 97.3338
+
+[node name="Attachment" type="KinematicBody2D"]
+script = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/CloseDoor = SubResource( 2 )
+anims/OpenDoor = SubResource( 3 )
+
+[node name="Door1" type="StaticBody2D" parent="."]
+position = Vector2( 30, -8 )
+scale = Vector2( 1, 1.5 )
+
+[node name="cage_door2" type="Sprite" parent="Door1"]
+scale = Vector2( 0.16, 0.1 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door1"]
+rotation = 1.5708
+shape = SubResource( 4 )
+
+[node name="Door2" type="StaticBody2D" parent="."]
+position = Vector2( 110, -8 )
+scale = Vector2( 1, 1.5 )
+
+[node name="cage_door" type="Sprite" parent="Door2"]
+scale = Vector2( 0.16, 0.1 )
+texture = ExtResource( 2 )
+flip_h = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Door2"]
+rotation = 1.5708
+shape = SubResource( 5 )
+
+[node name="cage" type="Sprite" parent="."]
+position = Vector2( 68, 62 )
+scale = Vector2( 0.336, 0.336 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -4, 74 )
+shape = SubResource( 6 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2( 140, 74 )
+shape = SubResource( 7 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+position = Vector2( 68, 130 )
+rotation = 1.5708
+shape = SubResource( 8 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = -32.0
+margin_top = 40.0
+margin_right = 8.0
+margin_bottom = 54.0
+rect_rotation = -89.9999
+custom_fonts/font = ExtResource( 1 )
+text = "1000"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+margin_left = -32.0
+margin_top = 127.0
+margin_right = 49.0
+margin_bottom = 141.0
+rect_rotation = -89.9999
+custom_fonts/font = ExtResource( 1 )
+text = "Door charge:"
+__meta__ = {
+"_edit_use_anchors_": false
+}

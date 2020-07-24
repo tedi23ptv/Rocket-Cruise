@@ -1,0 +1,78 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scenes/background.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Other assets/earth_moon.png" type="Texture" id=2]
+[ext_resource path="res://Other assets/earth.png" type="Texture" id=3]
+[ext_resource path="res://Other assets/mars.png" type="Texture" id=4]
+[ext_resource path="res://Fonts/BloggerSans.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+
+func _process(delta):
+	
+	$earth/earth_moon.rotation += PI/20 * delta *2
+	$earth.rotation += PI/90 * delta *2
+	$mars.rotation += PI/70 * delta *2
+"
+
+[sub_resource type="DynamicFont" id=2]
+size = 31
+use_filter = true
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=3]
+use_filter = true
+font_data = ExtResource( 5 )
+
+[node name="Menu_sistem" type="Control"]
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" parent="." instance=ExtResource( 1 )]
+position = Vector2( 208, 296 )
+
+[node name="earth" type="Sprite" parent="."]
+position = Vector2( 256, 280 )
+scale = Vector2( 0.0468749, 0.0468749 )
+texture = ExtResource( 3 )
+offset = Vector2( 4000, 0 )
+
+[node name="earth_moon" type="Sprite" parent="earth"]
+position = Vector2( 4096.02, 0 )
+scale = Vector2( 0.316051, 0.316051 )
+texture = ExtResource( 2 )
+offset = Vector2( 6000, 0 )
+
+[node name="mars" type="Sprite" parent="."]
+position = Vector2( 256, 280 )
+scale = Vector2( 0.103704, 0.103704 )
+texture = ExtResource( 4 )
+offset = Vector2( -2000, 0 )
+
+[node name="Rocket Cruise" type="RichTextLabel" parent="."]
+margin_left = 152.0
+margin_top = 264.0
+margin_right = 352.0
+margin_bottom = 296.0
+custom_fonts/normal_font = SubResource( 2 )
+text = "Rocket Cruise"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="by Tedi" type="RichTextLabel" parent="."]
+margin_left = 272.0
+margin_top = 296.0
+margin_right = 352.0
+margin_bottom = 328.0
+custom_fonts/normal_font = SubResource( 3 )
+text = "by Tedi"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}

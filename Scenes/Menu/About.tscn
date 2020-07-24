@@ -1,0 +1,243 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Menu/Menu_sistem.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Fonts/BloggerSans_16.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Other assets/SIGLA.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+var move_up = 0
+var move_up_bool = true
+var move_down = 0
+var s = 0.2 #speed
+var direction = Vector2(0,-s)
+
+func _process(delta):
+	if move_up_bool:
+		$Menu_sistem/SIGLA.set_position($Menu_sistem/SIGLA.position+direction)
+		move_up +=1
+	if move_up > 100:
+		if direction == Vector2(0,s):
+			direction = Vector2(0,-s)
+			move_up=0
+			return 0
+		if direction == Vector2(0,-s):
+			direction = Vector2(0,s)
+			move_up=0
+"
+
+[sub_resource type="Animation" id=2]
+resource_name = "New Anim"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Buttons/ColorRect_about:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0.12549, 0.0862745, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Control
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+
+func _on_Back_pressed():
+	get_tree().change_scene(\"res://Scenes/MainMenu.tscn\")
+
+
+
+
+func _on_Ro_pressed():
+	$Ro_text.show()
+	$En_text.hide()
+
+
+func _on_En_pressed():
+	$Ro_text.hide()
+	$En_text.show()
+"
+
+[node name="About_main" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="Options anim" type="AnimationPlayer" parent="."]
+"anims/New Anim" = SubResource( 2 )
+
+[node name="Menu_sistem" parent="." instance=ExtResource( 1 )]
+
+[node name="SIGLA" type="Sprite" parent="Menu_sistem"]
+position = Vector2( 987, 542 )
+scale = Vector2( 0.0625559, 0.0625558 )
+texture = ExtResource( 3 )
+
+[node name="Buttons" type="Control" parent="."]
+margin_left = 512.0
+margin_right = 1024.0
+margin_bottom = 600.0
+script = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect_about" type="ColorRect" parent="Buttons"]
+modulate = Color( 1, 1, 1, 0.686275 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0.12549, 0.0862745, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Buttons"]
+modulate = Color( 1, 1, 1, 0.784314 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -184.0
+margin_top = -156.0
+margin_right = 184.0
+margin_bottom = 212.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ro" type="Button" parent="Buttons"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = -188.0
+margin_right = -132.0
+margin_bottom = -168.0
+focus_mode = 0
+custom_fonts/font = ExtResource( 2 )
+enabled_focus_mode = 0
+text = "Ro"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="En" type="Button" parent="Buttons"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 128.0
+margin_top = -188.0
+margin_right = 156.0
+margin_bottom = -168.0
+focus_mode = 0
+custom_fonts/font = ExtResource( 2 )
+enabled_focus_mode = 0
+text = "En"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ro_text" type="RichTextLabel" parent="Buttons"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = -148.0
+margin_right = 160.0
+margin_bottom = 212.0
+custom_fonts/normal_font = ExtResource( 2 )
+text = "Motorul jocului: 
+Godot 3.2.2 stable version - un motor open-source 
+
+Elementele grafice: 
+Adobe Photoshop CC 2018
+Au fost folosite cateva iconite royality free care au suportat modificari.
+
+Muzica : 
+Schematist - Homemade Gelato (melodie fara drepturi de autor)
+Sb - Filaments (melodie fara drepturi de autor)
+			
+Font: 
+BloggerSans - royality free font
+
+Creator joc: Potop Teodor, Vidra, Vrancea
+Email: tedi23ptv@gmail.com
+Instagram: @t3di._
+
+
+"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="En_text" type="RichTextLabel" parent="Buttons"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = -148.0
+margin_right = 160.0
+margin_bottom = 204.0
+custom_fonts/normal_font = ExtResource( 2 )
+text = "Game engine:
+Godot 3.2.2 stable version - an open-source engine
+
+Graphic elements:
+Adobe Photoshop CC 2018
+Several royalty-free icons were used that underwent changes.
+
+Music: 
+Schematist - Homemade Gelato (copyright-free song)
+Sb - Filaments (copyright-free song)
+
+Font:
+BloggerSans - royalty-free font
+
+Game creator: Potop Teodor, Vidra, Vrancea
+Email: tedi23ptv@gmail.com
+Instagram: @t3di._"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="Button" parent="Buttons"]
+margin_top = 64.0
+margin_right = 88.0
+margin_bottom = 120.0
+focus_mode = 0
+custom_fonts/font = ExtResource( 2 )
+enabled_focus_mode = 0
+text = "Back"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Buttons/Ro" to="Buttons" method="_on_Ro_pressed"]
+[connection signal="pressed" from="Buttons/En" to="Buttons" method="_on_En_pressed"]
+[connection signal="pressed" from="Buttons/Back" to="Buttons" method="_on_Back_pressed"]

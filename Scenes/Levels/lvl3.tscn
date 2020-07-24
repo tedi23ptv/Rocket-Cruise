@@ -1,0 +1,338 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Scenes/Planets/Earth.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/background.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Minimap.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Planets/Mars.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Fonts/BloggerSans.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://Fonts/BloggerSans_16.tres" type="DynamicFont" id=9]
+[ext_resource path="res://Scenes/Planets/ISS.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/Enemy.tscn" type="PackedScene" id=11]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 1112.72
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends CanvasLayer
+
+var humans= 0
+var load_materials = false
+var on_earth = true
+var timer = 0
+var unload_humans = false
+var mission_completed = false
+func _process(delta):
+	
+	$Label.set_text(var2str(humans))
+	
+	if load_materials == true:
+		if humans <5:
+			timer += 1
+			if timer == 100:
+				humans += 1
+				timer = 0
+	
+	if unload_humans == true:
+		if humans > 0:
+			timer+=1
+			if timer == 100:
+				humans -=1
+				timer = 0
+		elif humans == 0:
+			mission_completed = true
+	
+func _on_ok_pressed():
+	$Mission.hide()
+
+func _on_ok2_pressed():
+	SaveGame.lvl = 4
+	get_tree().change_scene(\"res://Scenes/MainMenu.tscn\")
+
+
+func _on_Mars_area_body_entered(body: KinematicBody2D):
+		if on_earth == false:
+			load_materials = true
+		
+
+func _on_Mars_area_body_exited(body: KinematicBody2D):
+	load_materials = false
+
+func _on_Earth_area_body_entered(body: KinematicBody2D):
+	if mission_completed:
+		$MissionCompleted.show()
+
+
+func _on_Earth_area_body_exited(body: KinematicBody2D):
+	on_earth= false
+
+
+func _on_ISS_area_body_exited(body: KinematicBody2D):
+	if on_earth == false:
+		unload_humans = false
+	
+func _on_ISS_area_body_entered(body: KinematicBody2D):
+	if on_earth == false:
+		unload_humans = true
+
+func save(content):
+	var file = File.new()
+	file.open(\"user://save_game.save\", File.WRITE)
+	file.store_string(content)
+	file.close()
+"
+
+[sub_resource type="DynamicFont" id=3]
+size = 24
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 45
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 264, 16206 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 17184, 280 )
+
+[node name="lvl3" type="Node2D"]
+
+[node name="Background" parent="." instance=ExtResource( 3 )]
+position = Vector2( 4280, -640 )
+
+[node name="Earth" parent="." instance=ExtResource( 1 )]
+position = Vector2( -928, 472 )
+
+[node name="Mars" parent="." instance=ExtResource( 5 )]
+position = Vector2( 11112, -5424 )
+
+[node name="ISS" parent="." instance=ExtResource( 10 )]
+position = Vector2( 11000, 4600 )
+scale = Vector2( 0.610224, 0.610224 )
+
+[node name="Rocket" parent="." groups=[
+"player",
+] instance=ExtResource( 2 )]
+position = Vector2( -936, -600 )
+
+[node name="Enemy" parent="." instance=ExtResource( 11 )]
+position = Vector2( 3968, -5480 )
+lvl = 3
+
+[node name="Enemy6" parent="." instance=ExtResource( 11 )]
+position = Vector2( 4936, -4896 )
+lvl = 3
+
+[node name="Enemy7" parent="." instance=ExtResource( 11 )]
+position = Vector2( 5416, -2768 )
+lvl = 3
+
+[node name="Enemy8" parent="." instance=ExtResource( 11 )]
+position = Vector2( 7632, -4472 )
+lvl = 3
+
+[node name="Enemy9" parent="." instance=ExtResource( 11 )]
+position = Vector2( 14728, -1952 )
+lvl = 3
+
+[node name="Enemy10" parent="." instance=ExtResource( 11 )]
+position = Vector2( 14344, -6656 )
+lvl = 3
+
+[node name="Enemy12" parent="." instance=ExtResource( 11 )]
+position = Vector2( 12504, 112 )
+rotation = 1.0472
+lvl = 3
+
+[node name="Enemy11" parent="." instance=ExtResource( 11 )]
+position = Vector2( 13664, 1824 )
+lvl = 3
+
+[node name="Enemy2" parent="." instance=ExtResource( 11 )]
+position = Vector2( 2392, -4560 )
+lvl = 3
+
+[node name="Enemy3" parent="." instance=ExtResource( 11 )]
+position = Vector2( 3648, -3432 )
+lvl = 3
+
+[node name="Enemy4" parent="." instance=ExtResource( 11 )]
+position = Vector2( 5680, -4160 )
+lvl = 3
+
+[node name="Enemy5" parent="." instance=ExtResource( 11 )]
+position = Vector2( 6064, -5964 )
+lvl = 3
+
+[node name="ISS_area" type="Area2D" parent="."]
+position = Vector2( 4280, -640 )
+scale = Vector2( 3, 3 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ISS_area"]
+polygon = PoolVector2Array( 2029.33, 1664, 2157.33, 1664, 2178.67, 1704, 2296, 1706.67, 2328, 1664, 2432, 1664, 2434.67, 1813.33, 2264, 1856, 2216, 1856, 2029.33, 1813.33 )
+
+[node name="Earth_area" type="Area2D" parent="."]
+
+[node name="Earth_area_colisionShape" type="CollisionShape2D" parent="Earth_area"]
+position = Vector2( -936, 456 )
+shape = SubResource( 1 )
+
+[node name="Mars_area" type="Area2D" parent="."]
+
+[node name="Mars_area_colisionShape" type="CollisionShape2D" parent="Mars_area"]
+position = Vector2( 11112, -5424 )
+shape = SubResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = SubResource( 2 )
+
+[node name="Minimap" parent="CanvasLayer" instance=ExtResource( 4 )]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -208.0
+margin_top = 9.53674e-07
+margin_right = 107.0
+rect_scale = Vector2( 0.610224, 0.610224 )
+is_earth = true
+is_mars = true
+is_iss = true
+player = NodePath("../../Rocket")
+earth = NodePath("../../Earth")
+mars = NodePath("../../Mars")
+iss = NodePath("../../ISS")
+
+[node name="Mission" type="ColorRect" parent="CanvasLayer"]
+margin_left = 72.0
+margin_right = 943.0
+margin_bottom = 560.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 0.862745 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mission_text" type="RichTextLabel" parent="CanvasLayer/Mission"]
+margin_left = 160.0
+margin_top = 32.0
+margin_right = 784.0
+margin_bottom = 456.0
+custom_fonts/normal_font = SubResource( 3 )
+text = "Hello Mike, your last cruise to MARS was a... success...
+
+The meteor rain hit our base... several people got injured...
+
+THIS IS BAD!
+
+Something like that never happend... It was taken as a low probability ending, but here we are.
+
+We sent some people there to clean the site and take some important things to the International Space Station (ISS).
+
+Help them go from MARS to ISS."
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ok" type="Button" parent="CanvasLayer/Mission"]
+margin_left = 712.0
+margin_top = 472.0
+margin_right = 769.0
+margin_bottom = 522.0
+focus_mode = 0
+custom_fonts/font = SubResource( 4 )
+enabled_focus_mode = 0
+text = "Ok"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MissionCompleted" type="ColorRect" parent="CanvasLayer"]
+visible = false
+margin_left = 72.0
+margin_right = 943.0
+margin_bottom = 560.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 0.862745 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mission_text" type="RichTextLabel" parent="CanvasLayer/MissionCompleted"]
+margin_left = 160.0
+margin_top = 32.0
+margin_right = 784.0
+margin_bottom = 456.0
+custom_fonts/normal_font = SubResource( 3 )
+text = "Mission Completed"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ok2" type="Button" parent="CanvasLayer/MissionCompleted"]
+margin_left = 712.0
+margin_top = 472.0
+margin_right = 769.0
+margin_bottom = 522.0
+focus_mode = 0
+custom_fonts/font = SubResource( 4 )
+enabled_focus_mode = 0
+text = "Ok"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+margin_left = 144.0
+margin_top = 32.0
+margin_right = 252.0
+margin_bottom = 86.0
+custom_fonts/font = ExtResource( 9 )
+text = "0
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+margin_left = 24.0
+margin_top = 32.0
+margin_right = 132.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 9 )
+text = "Humans on board:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Boundries" type="StaticBody2D" parent="."]
+position = Vector2( -9760, 10048 )
+
+[node name="Margin3" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( -640, -9896 )
+shape = SubResource( 5 )
+
+[node name="Margin4" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( 31832, -9896 )
+shape = SubResource( 5 )
+
+[node name="Margin1" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( 15872, 6120 )
+shape = SubResource( 6 )
+
+[node name="Margin2" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( 15400, -26048 )
+shape = SubResource( 6 )
+[connection signal="body_entered" from="ISS_area" to="CanvasLayer" method="_on_ISS_area_body_entered"]
+[connection signal="body_exited" from="ISS_area" to="CanvasLayer" method="_on_ISS_area_body_exited"]
+[connection signal="body_entered" from="Earth_area" to="CanvasLayer" method="_on_Earth_area_body_entered"]
+[connection signal="body_exited" from="Earth_area" to="CanvasLayer" method="_on_Earth_area_body_exited"]
+[connection signal="body_entered" from="Mars_area" to="CanvasLayer" method="_on_Mars_area_body_entered"]
+[connection signal="body_exited" from="Mars_area" to="CanvasLayer" method="_on_Mars_area_body_exited"]
+[connection signal="pressed" from="CanvasLayer/Mission/ok" to="CanvasLayer" method="_on_ok_pressed"]
+[connection signal="pressed" from="CanvasLayer/MissionCompleted/ok2" to="CanvasLayer" method="_on_ok2_pressed"]

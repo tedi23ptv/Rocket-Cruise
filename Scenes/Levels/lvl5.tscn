@@ -1,0 +1,379 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Scenes/Planets/Earth.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Characters/Player_with_guns.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/background.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Minimap.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Planets/Mars.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Fonts/BloggerSans.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://Fonts/BloggerSans_16.tres" type="DynamicFont" id=9]
+[ext_resource path="res://Scenes/Planets/ISS.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/Enemy.tscn" type="PackedScene" id=11]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 1112.72
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends CanvasLayer
+
+
+func _process(delta):
+	
+	if get_node(\"Score\").points==10:
+		$MissionCompleted.show()
+
+
+func _on_ok_pressed():
+	$Mission.hide()
+
+func _on_ok2_pressed():
+	SaveGame.lvl = 4
+	get_tree().change_scene(\"res://Scenes/MainMenu.tscn\")
+"
+
+[sub_resource type="DynamicFont" id=3]
+size = 24
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 45
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends Label
+
+var points = 0
+
+
+func _process(delta):
+	self.set_text(var2str(points))
+"
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 264, 16206 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 17184, 280 )
+
+[node name="lvl5" type="Node2D"]
+
+[node name="Background" parent="." instance=ExtResource( 3 )]
+position = Vector2( 4280, -640 )
+
+[node name="Earth" parent="." instance=ExtResource( 1 )]
+position = Vector2( -928, 472 )
+
+[node name="Mars" parent="." instance=ExtResource( 5 )]
+position = Vector2( 11112, -5424 )
+
+[node name="ISS" parent="." instance=ExtResource( 10 )]
+position = Vector2( 11000, 4600 )
+scale = Vector2( 0.610224, 0.610224 )
+
+[node name="Rocket" parent="." groups=[
+"player",
+] instance=ExtResource( 2 )]
+position = Vector2( -952, -608 )
+
+[node name="Enemy" parent="." instance=ExtResource( 11 )]
+position = Vector2( 3920, -5480 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy2" parent="." instance=ExtResource( 11 )]
+position = Vector2( 2416, -5064 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy3" parent="." instance=ExtResource( 11 )]
+position = Vector2( 3296, -4952 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy4" parent="." instance=ExtResource( 11 )]
+position = Vector2( 3000, -4464 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy5" parent="." instance=ExtResource( 11 )]
+position = Vector2( 4208, -4696 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy6" parent="." instance=ExtResource( 11 )]
+position = Vector2( 3880, -4024 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy7" parent="." instance=ExtResource( 11 )]
+position = Vector2( 3856, -3576 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy8" parent="." instance=ExtResource( 11 )]
+position = Vector2( 4880, -4024 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy9" parent="." instance=ExtResource( 11 )]
+position = Vector2( 7200, -4384 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy10" parent="." instance=ExtResource( 11 )]
+position = Vector2( 5696, -3968 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy11" parent="." instance=ExtResource( 11 )]
+position = Vector2( 6576, -3856 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy12" parent="." instance=ExtResource( 11 )]
+position = Vector2( 6280, -3368 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy13" parent="." instance=ExtResource( 11 )]
+position = Vector2( 7488, -3600 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy14" parent="." instance=ExtResource( 11 )]
+position = Vector2( 7160, -2928 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy15" parent="." instance=ExtResource( 11 )]
+position = Vector2( 7136, -2480 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy16" parent="." instance=ExtResource( 11 )]
+position = Vector2( 8160, -2928 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy17" parent="." instance=ExtResource( 11 )]
+position = Vector2( 6304, -1664 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy18" parent="." instance=ExtResource( 11 )]
+position = Vector2( 4800, -1248 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy19" parent="." instance=ExtResource( 11 )]
+position = Vector2( 5680, -1136 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy20" parent="." instance=ExtResource( 11 )]
+position = Vector2( 5384, -648 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy21" parent="." instance=ExtResource( 11 )]
+position = Vector2( 6592, -880 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy22" parent="." instance=ExtResource( 11 )]
+position = Vector2( 6264, -208 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy23" parent="." instance=ExtResource( 11 )]
+position = Vector2( 6240, 240 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="Enemy24" parent="." instance=ExtResource( 11 )]
+position = Vector2( 7264, -208 )
+lvl = 5
+points = NodePath("../CanvasLayer/Score")
+
+[node name="ISS_area" type="Area2D" parent="."]
+position = Vector2( 4280, -640 )
+scale = Vector2( 3, 3 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ISS_area"]
+polygon = PoolVector2Array( 2029.33, 1664, 2157.33, 1664, 2178.67, 1704, 2296, 1706.67, 2328, 1664, 2432, 1664, 2434.67, 1813.33, 2264, 1856, 2216, 1856, 2029.33, 1813.33 )
+
+[node name="Earth_area" type="Area2D" parent="."]
+
+[node name="Earth_area_colisionShape" type="CollisionShape2D" parent="Earth_area"]
+position = Vector2( -936, 456 )
+shape = SubResource( 1 )
+
+[node name="Mars_area" type="Area2D" parent="."]
+
+[node name="Mars_area_colisionShape" type="CollisionShape2D" parent="Mars_area"]
+position = Vector2( 11112, -5424 )
+shape = SubResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = SubResource( 2 )
+
+[node name="Minimap" parent="CanvasLayer" instance=ExtResource( 4 )]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -208.0
+margin_top = 9.53674e-07
+margin_right = 107.0
+rect_scale = Vector2( 0.610224, 0.610224 )
+is_earth = true
+is_mars = true
+is_iss = true
+player = NodePath("../../../lvl5/Rocket")
+earth = NodePath("../../../lvl5/Earth")
+mars = NodePath("../../../lvl5/Mars")
+iss = NodePath("../../../lvl5/ISS")
+
+[node name="Mission" type="ColorRect" parent="CanvasLayer"]
+margin_left = 72.0
+margin_right = 943.0
+margin_bottom = 560.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 0.862745 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mission_text" type="RichTextLabel" parent="CanvasLayer/Mission"]
+margin_left = 160.0
+margin_top = 32.0
+margin_right = 720.0
+margin_bottom = 464.0
+custom_fonts/normal_font = SubResource( 3 )
+text = "Hello Mike!
+
+
+You have a SPECIAL MISSION!
+
+
+A meteorite rain is coming straight to Earth.
+
+
+Distroy 10 meteors to complete the mission!
+Use the button on your screan or press \"SPACE\" in order to use the gun.
+
+
+GOOD LUCK!"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ok" type="Button" parent="CanvasLayer/Mission"]
+margin_left = 712.0
+margin_top = 472.0
+margin_right = 769.0
+margin_bottom = 522.0
+focus_mode = 0
+custom_fonts/font = SubResource( 4 )
+enabled_focus_mode = 0
+text = "Ok"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MissionCompleted" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -435.5
+margin_top = -280.0
+margin_right = 435.5
+margin_bottom = 280.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 0.862745 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mission_text" type="RichTextLabel" parent="CanvasLayer/MissionCompleted"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -92.0
+margin_top = -19.0
+margin_right = 92.0
+margin_bottom = 19.0
+custom_fonts/normal_font = SubResource( 3 )
+text = "Mission Completed"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ok2" type="Button" parent="CanvasLayer/MissionCompleted"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -83.5
+margin_top = -72.0
+margin_right = -26.5
+margin_bottom = -22.0
+focus_mode = 0
+custom_fonts/font = SubResource( 4 )
+enabled_focus_mode = 0
+text = "Ok"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="CanvasLayer"]
+margin_left = 144.0
+margin_top = 32.0
+margin_right = 252.0
+margin_bottom = 86.0
+custom_fonts/font = ExtResource( 9 )
+text = "0
+"
+script = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Meteors distroied" type="Label" parent="CanvasLayer"]
+margin_left = 24.0
+margin_top = 32.0
+margin_right = 132.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 9 )
+text = "Meteors distroied:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Boundries" type="StaticBody2D" parent="."]
+position = Vector2( -9760, 10048 )
+
+[node name="Margin3" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( -640, -9896 )
+shape = SubResource( 6 )
+
+[node name="Margin4" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( 31832, -9896 )
+shape = SubResource( 6 )
+
+[node name="Margin1" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( 15872, 6120 )
+shape = SubResource( 7 )
+
+[node name="Margin2" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( 15400, -26048 )
+shape = SubResource( 7 )
+[connection signal="pressed" from="CanvasLayer/Mission/ok" to="CanvasLayer" method="_on_ok_pressed"]
+[connection signal="pressed" from="CanvasLayer/MissionCompleted/ok2" to="CanvasLayer" method="_on_ok2_pressed"]

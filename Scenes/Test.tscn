@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Scenes/Enemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/background.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Characters/Player_with_attachment.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Planets/Earth.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Planets/Mars.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Characters/Package.tscn" type="PackedScene" id=6]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 1216.11
+
+[node name="Test" type="Node2D"]
+
+[node name="Background" parent="." instance=ExtResource( 2 )]
+
+[node name="Enemy" parent="." instance=ExtResource( 1 )]
+position = Vector2( 112, -328 )
+
+[node name="Enemy2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 576, -1320 )
+
+[node name="Enemy3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 360, -880 )
+
+[node name="Rocket" parent="." instance=ExtResource( 3 )]
+position = Vector2( -4528, 1104 )
+
+[node name="Earth" parent="." instance=ExtResource( 4 )]
+position = Vector2( -4520, 2184 )
+
+[node name="Area2D" type="Area2D" parent="Earth"]
+position = Vector2( 4520, -2184 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Earth/Area2D"]
+position = Vector2( -4520, 2184 )
+shape = SubResource( 1 )
+
+[node name="Mars" parent="." instance=ExtResource( 5 )]
+position = Vector2( 6192, -1920 )
+
+[node name="Package" parent="." instance=ExtResource( 6 )]
+position = Vector2( -4032, 888 )

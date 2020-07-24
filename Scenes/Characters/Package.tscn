@@ -1,0 +1,133 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Other assets/package.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends RigidBody2D
+
+var transported = false
+var end_process = false
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+func _process(delta):
+	if transported and not end_process:
+		$AnimationPlayer.play(\"Transported\")
+		end_process = true
+"
+
+[sub_resource type="Animation" id=2]
+resource_name = "Transported"
+length = 1.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("c1:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("c2:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("c3:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("c4:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("c5:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("package_sprite:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 32.0
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 8.0
+
+[node name="Package" type="RigidBody2D"]
+input_pickable = true
+gravity_scale = 0.0
+contact_monitor = true
+script = SubResource( 1 )
+
+[node name="package_sprite" type="Sprite" parent="."]
+scale = Vector2( 0.0592593, 0.0592593 )
+texture = ExtResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Transported = SubResource( 2 )
+
+[node name="c1" type="CollisionShape2D" parent="."]
+shape = SubResource( 3 )
+
+[node name="c2" type="CollisionShape2D" parent="."]
+position = Vector2( -24, -24 )
+shape = SubResource( 4 )
+
+[node name="c3" type="CollisionShape2D" parent="."]
+position = Vector2( 24, -24 )
+shape = SubResource( 4 )
+
+[node name="c4" type="CollisionShape2D" parent="."]
+position = Vector2( 24, 24 )
+shape = SubResource( 4 )
+
+[node name="c5" type="CollisionShape2D" parent="."]
+position = Vector2( -24, 24 )
+shape = SubResource( 4 )

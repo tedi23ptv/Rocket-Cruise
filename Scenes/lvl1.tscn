@@ -1,0 +1,275 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Scenes/Planets/Earth.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/background.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Minimap.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Planets/Mars.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Fonts/BloggerSans.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://Fonts/BloggerSans_16.tres" type="DynamicFont" id=9]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 1096.26
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends CanvasLayer
+
+var materials = 15000
+var unload_materials = false
+var on_earth = true
+
+func _process(delta):
+	
+	$Label.set_text(var2str(materials))
+	
+	if unload_materials == true:
+		if materials >0:
+			materials -= 10
+
+
+func _on_ok_pressed():
+	$Mission.hide()
+
+func _on_ok2_pressed():
+	SaveGame.lvl = 2
+	get_tree().change_scene(\"res://Scenes/Levels/lvl2.tscn\")
+	
+
+
+func _on_Mars_area_body_entered(body: KinematicBody2D):
+		if on_earth == false:
+			unload_materials = true
+		
+
+func _on_Mars_area_body_exited(body: KinematicBody2D):
+	unload_materials = false
+
+func _on_Earth_area_body_entered(body: KinematicBody2D):
+	if materials == 0:
+		$MissionCompleted.show()
+
+
+func _on_Earth_area_body_exited(body: KinematicBody2D):
+	on_earth= false
+
+
+func _on_Button_pressed():
+	get_tree().change_scene(\"res://Scenes/Menu/Optons_main.tscn\")
+"
+
+[sub_resource type="DynamicFont" id=3]
+size = 24
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 45
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 264, 16206 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 17184, 280 )
+
+[node name="lvl1" type="Node2D"]
+
+[node name="Background" parent="." instance=ExtResource( 3 )]
+position = Vector2( 4280, -640 )
+
+[node name="Earth" parent="." instance=ExtResource( 1 )]
+position = Vector2( -928, 472 )
+
+[node name="Mars" parent="." instance=ExtResource( 5 )]
+position = Vector2( 11112, -5424 )
+
+[node name="Rocket" parent="." instance=ExtResource( 2 )]
+position = Vector2( -928, -573 )
+
+[node name="Earth_area" type="Area2D" parent="."]
+
+[node name="Earth_area_colisionShape" type="CollisionShape2D" parent="Earth_area"]
+position = Vector2( -920, 456 )
+shape = SubResource( 1 )
+
+[node name="Mars_area" type="Area2D" parent="."]
+
+[node name="Mars_area_colisionShape" type="CollisionShape2D" parent="Mars_area"]
+position = Vector2( 11112, -5424 )
+shape = SubResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = SubResource( 2 )
+
+[node name="Minimap" parent="CanvasLayer" instance=ExtResource( 4 )]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -208.0
+margin_top = 9.53674e-07
+margin_right = 107.0
+rect_scale = Vector2( 0.610224, 0.610224 )
+is_earth = true
+is_mars = true
+player = NodePath("../../Rocket")
+earth = NodePath("../../Earth")
+mars = NodePath("../../Mars")
+
+[node name="Mission" type="ColorRect" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -435.5
+margin_top = -280.0
+margin_right = 435.5
+margin_bottom = 280.0
+mouse_filter = 1
+color = Color( 0, 0, 0, 0.862745 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mission_text" type="RichTextLabel" parent="CanvasLayer/Mission"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -312.0
+margin_top = -260.0
+margin_right = 312.0
+margin_bottom = 238.0
+custom_fonts/normal_font = SubResource( 3 )
+text = "Hello Mike, you, after years of training, have been selected for a session of missions that have as final target the colonisation of the entire planetary sistem.
+
+We are starting with something easy, MARS(the red planet on your minimap).
+
+It only needs a nice atmosphere. To gain that, our specialists need a base and to build that, you have to transport 15.000 materials.
+
+After the transport is done, come back to EARTH (at the planet you are right now) to take a rest and prepare for your next mission.
+
+To move, use the BUTTONS ON THE SCREAN, or the 
+ARROW KEYS / \"W\",\"A\",\"S\",\"D\" if you are using the desktop aplication.
+
+GOOD LUCK!"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ok" type="Button" parent="CanvasLayer/Mission"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -131.5
+margin_top = -100.0
+margin_right = -74.5
+margin_bottom = -50.0
+focus_mode = 0
+custom_fonts/font = SubResource( 4 )
+enabled_focus_mode = 0
+text = "Ok"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MissionCompleted" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -435.5
+margin_top = -280.0
+margin_right = 435.5
+margin_bottom = 280.0
+mouse_filter = 1
+color = Color( 0, 0, 0, 0.862745 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mission_completed" type="RichTextLabel" parent="CanvasLayer/MissionCompleted"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -92.0
+margin_top = -12.0
+margin_right = 92.0
+margin_bottom = 12.0
+custom_fonts/normal_font = SubResource( 3 )
+text = "Mission Completed"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ok2" type="Button" parent="CanvasLayer/MissionCompleted"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -131.5
+margin_top = -84.0
+margin_right = -39.5
+margin_bottom = -34.0
+focus_mode = 0
+custom_fonts/font = SubResource( 4 )
+enabled_focus_mode = 0
+text = "Next"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+margin_left = 72.0
+margin_top = 64.0
+margin_right = 180.0
+margin_bottom = 118.0
+custom_fonts/font = ExtResource( 9 )
+text = "15000
+
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+margin_left = 8.0
+margin_top = 64.0
+margin_right = 116.0
+margin_bottom = 88.0
+custom_fonts/font = ExtResource( 9 )
+text = "Materials: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Boundries" type="StaticBody2D" parent="."]
+position = Vector2( -9760, 10048 )
+
+[node name="Margin3" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( -640, -9896 )
+shape = SubResource( 5 )
+
+[node name="Margin4" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( 31832, -9896 )
+shape = SubResource( 5 )
+
+[node name="Margin1" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( 15872, 6120 )
+shape = SubResource( 6 )
+
+[node name="Margin2" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( 15400, -26048 )
+shape = SubResource( 6 )
+[connection signal="body_entered" from="Earth_area" to="CanvasLayer" method="_on_Earth_area_body_entered"]
+[connection signal="body_exited" from="Earth_area" to="CanvasLayer" method="_on_Earth_area_body_exited"]
+[connection signal="body_entered" from="Mars_area" to="CanvasLayer" method="_on_Mars_area_body_entered"]
+[connection signal="body_exited" from="Mars_area" to="CanvasLayer" method="_on_Mars_area_body_exited"]
+[connection signal="pressed" from="CanvasLayer/Mission/ok" to="CanvasLayer" method="_on_ok_pressed"]
+[connection signal="pressed" from="CanvasLayer/MissionCompleted/ok2" to="CanvasLayer" method="_on_ok2_pressed"]

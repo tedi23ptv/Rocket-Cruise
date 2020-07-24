@@ -1,0 +1,308 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Scenes/Planets/Earth.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/background.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Minimap.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Planets/Mars.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Fonts/BloggerSans.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://Fonts/BloggerSans_16.tres" type="DynamicFont" id=9]
+[ext_resource path="res://Scenes/Enemy.tscn" type="PackedScene" id=10]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 1128.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 640.0
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends CanvasLayer
+
+var materials = 5000
+var unload_materials = false
+var on_earth = true
+
+func _process(delta):
+	
+	$Label.set_text(var2str(materials))
+	
+	if unload_materials == true:
+		if materials >0:
+			materials -= 10
+
+	
+func _on_ok_pressed():
+	$Mission.hide()
+
+func _on_ok2_pressed():
+	SaveGame.lvl = 3
+	get_tree().change_scene(\"res://Scenes/Levels/lvl4.tscn\")
+
+
+func _on_Mars_area_body_entered(body: KinematicBody2D):
+		if on_earth == false:
+			unload_materials = true
+		
+
+func _on_Mars_area_body_exited(body: KinematicBody2D):
+	unload_materials = false
+
+func _on_Earth_area_body_entered(body: KinematicBody2D):
+	if materials == 0:
+		$MissionCompleted.show()
+
+
+func _on_Earth_area_body_exited(body: KinematicBody2D):
+	on_earth= false
+
+
+
+func _on_Button_pressed():
+	get_tree().change_scene(\"res://Scenes/MainMenu.tscn\")
+"
+
+[sub_resource type="DynamicFont" id=4]
+size = 24
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 45
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 264, 16206 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 17184, 280 )
+
+[node name="lvl2" type="Node2D"]
+
+[node name="Background" parent="." instance=ExtResource( 3 )]
+position = Vector2( 4280, -640 )
+
+[node name="Earth" parent="." instance=ExtResource( 1 )]
+position = Vector2( -928, 472 )
+
+[node name="Mars" parent="." instance=ExtResource( 5 )]
+position = Vector2( 11112, -5424 )
+
+[node name="Rocket" parent="." groups=[
+"player",
+] instance=ExtResource( 2 )]
+position = Vector2( -928, -573 )
+
+[node name="Enemy" parent="." instance=ExtResource( 10 )]
+position = Vector2( 2560, -2864 )
+lvl = 2
+
+[node name="Enemy2" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1688, -4440 )
+lvl = 2
+
+[node name="Enemy3" parent="." instance=ExtResource( 10 )]
+position = Vector2( 3864, -4832 )
+lvl = 2
+
+[node name="Enemy4" parent="." instance=ExtResource( 10 )]
+position = Vector2( 4616, -3944 )
+lvl = 2
+
+[node name="Enemy5" parent="." instance=ExtResource( 10 )]
+position = Vector2( 5664, -6624 )
+lvl = 2
+
+[node name="Enemy6" parent="." instance=ExtResource( 10 )]
+position = Vector2( 6688, -5872 )
+lvl = 2
+
+[node name="Enemy7" parent="." instance=ExtResource( 10 )]
+position = Vector2( 5624, -5764 )
+lvl = 2
+
+[node name="Enemy8" parent="." instance=ExtResource( 10 )]
+position = Vector2( 6256, -4824 )
+lvl = 2
+
+[node name="Enemy9" parent="." instance=ExtResource( 10 )]
+position = Vector2( 8096, -7608 )
+lvl = 2
+
+[node name="Enemy10" parent="." instance=ExtResource( 10 )]
+position = Vector2( 7152, -7208 )
+lvl = 2
+
+[node name="Enemy11" parent="." instance=ExtResource( 10 )]
+position = Vector2( 8672, -6616 )
+lvl = 2
+
+[node name="Enemy12" parent="." instance=ExtResource( 10 )]
+position = Vector2( 9008, -4936 )
+lvl = 2
+
+[node name="Enemy13" parent="." instance=ExtResource( 10 )]
+position = Vector2( 7216, -4112 )
+lvl = 2
+
+[node name="Enemy14" parent="." instance=ExtResource( 10 )]
+position = Vector2( 3768, -5472 )
+lvl = 2
+
+[node name="Earth_area" type="Area2D" parent="."]
+position = Vector2( -928, 472 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Earth_area"]
+shape = SubResource( 1 )
+
+[node name="Mars_area" type="Area2D" parent="."]
+position = Vector2( 11104, -5424 )
+
+[node name="Mars_area_colisionShape" type="CollisionShape2D" parent="Mars_area"]
+shape = SubResource( 2 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = SubResource( 3 )
+
+[node name="Minimap" parent="CanvasLayer" instance=ExtResource( 4 )]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -208.0
+margin_top = 9.53674e-07
+margin_right = 107.0
+rect_scale = Vector2( 0.610224, 0.610224 )
+is_earth = true
+is_mars = true
+player = NodePath("../../../lvl2/Rocket")
+earth = NodePath("../../../lvl2/Earth")
+mars = NodePath("../../../lvl2/Mars")
+
+[node name="Mission" type="ColorRect" parent="CanvasLayer"]
+margin_left = 72.0
+margin_right = 943.0
+margin_bottom = 560.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 0.862745 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mission_text" type="RichTextLabel" parent="CanvasLayer/Mission"]
+margin_left = 160.0
+margin_top = 32.0
+margin_right = 784.0
+margin_bottom = 456.0
+custom_fonts/normal_font = SubResource( 4 )
+text = "Hello Mike, your last cruise to MARS was a success. 
+
+Mister Johnson was verry satisfied, you really did a great job!
+
+Now, we want to impress him again.
+
+In space, is not a rare thing to encounter a meteor that is \"flying\" by your side. Even if it is verry common, many astronauts are afraid to take a cruise when such an object is identified. 
+
+Your mision is to get another 5000 materials to MARS, but this time you have to avoid some pebbles."
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ok" type="Button" parent="CanvasLayer/Mission"]
+margin_left = 712.0
+margin_top = 472.0
+margin_right = 769.0
+margin_bottom = 522.0
+focus_mode = 0
+custom_fonts/font = SubResource( 5 )
+enabled_focus_mode = 0
+text = "Ok"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MissionCompleted" type="ColorRect" parent="CanvasLayer"]
+visible = false
+margin_left = 72.0
+margin_right = 943.0
+margin_bottom = 560.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 0.862745 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mission_text" type="RichTextLabel" parent="CanvasLayer/MissionCompleted"]
+margin_left = 160.0
+margin_top = 32.0
+margin_right = 784.0
+margin_bottom = 456.0
+custom_fonts/normal_font = SubResource( 4 )
+text = "Mission Completed"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ok2" type="Button" parent="CanvasLayer/MissionCompleted"]
+margin_left = 712.0
+margin_top = 472.0
+margin_right = 769.0
+margin_bottom = 522.0
+focus_mode = 0
+custom_fonts/font = SubResource( 5 )
+enabled_focus_mode = 0
+text = "Ok"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+margin_left = 88.0
+margin_top = 32.0
+margin_right = 196.0
+margin_bottom = 86.0
+custom_fonts/font = ExtResource( 9 )
+text = "5000
+
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+margin_left = 24.0
+margin_top = 32.0
+margin_right = 132.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 9 )
+text = "Materials: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Boundries" type="StaticBody2D" parent="."]
+position = Vector2( -9760, 10048 )
+
+[node name="Margin3" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( -640, -9896 )
+shape = SubResource( 6 )
+
+[node name="Margin4" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( 31832, -9896 )
+shape = SubResource( 6 )
+
+[node name="Margin1" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( 15872, 6120 )
+shape = SubResource( 7 )
+
+[node name="Margin2" type="CollisionShape2D" parent="Boundries"]
+position = Vector2( 15400, -26048 )
+shape = SubResource( 7 )
+[connection signal="body_entered" from="Earth_area" to="CanvasLayer" method="_on_Earth_area_body_entered"]
+[connection signal="body_exited" from="Earth_area" to="CanvasLayer" method="_on_Earth_area_body_exited"]
+[connection signal="body_entered" from="Mars_area" to="CanvasLayer" method="_on_Mars_area_body_entered"]
+[connection signal="body_exited" from="Mars_area" to="CanvasLayer" method="_on_Mars_area_body_exited"]
+[connection signal="pressed" from="CanvasLayer/Mission/ok" to="CanvasLayer" method="_on_ok_pressed"]
+[connection signal="pressed" from="CanvasLayer/MissionCompleted/ok2" to="CanvasLayer" method="_on_ok2_pressed"]

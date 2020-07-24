@@ -1,0 +1,282 @@
+[gd_scene load_steps=38 format=2]
+
+[ext_resource path="res://Rocket/Assets/Model 2/fly6.png" type="Texture" id=1]
+[ext_resource path="res://Rocket/Assets/Model 2/fly1.png" type="Texture" id=2]
+[ext_resource path="res://Rocket/Assets/Model 2/fly7.png" type="Texture" id=3]
+[ext_resource path="res://Rocket/Assets/Model 2/start_acceleration_1.png" type="Texture" id=4]
+[ext_resource path="res://Rocket/Assets/Model 2/Standby.png" type="Texture" id=5]
+[ext_resource path="res://Rocket/Assets/Model 2/start_acceleration_3.png" type="Texture" id=6]
+[ext_resource path="res://Rocket/Assets/Model 2/fly2.png" type="Texture" id=7]
+[ext_resource path="res://Rocket/Assets/Model 2/fly3.png" type="Texture" id=8]
+[ext_resource path="res://Rocket/Assets/Model 2/fly5.png" type="Texture" id=9]
+[ext_resource path="res://Rocket/Assets/Model 2/fly4.png" type="Texture" id=10]
+[ext_resource path="res://Rocket/Assets/Model 2/start_acceleration_2.png" type="Texture" id=11]
+[ext_resource path="res://Rocket/Assets/Model 2/start_acceleration_4.png" type="Texture" id=12]
+[ext_resource path="res://Rocket/Assets/Model 2/nitro.png" type="Texture" id=13]
+[ext_resource path="res://Rocket/rocket.gd" type="Script" id=14]
+[ext_resource path="res://Scenes/Menu/Phone Controls.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Rocket/Assets/Model 3/fly1.png" type="Texture" id=16]
+[ext_resource path="res://Rocket/Assets/Model 3/fly2.png" type="Texture" id=17]
+[ext_resource path="res://Rocket/Assets/Model 3/fly5.png" type="Texture" id=18]
+[ext_resource path="res://Rocket/Assets/Model 3/fly4.png" type="Texture" id=19]
+[ext_resource path="res://Rocket/Assets/Model 3/fly6.png" type="Texture" id=20]
+[ext_resource path="res://Rocket/Assets/Model 3/fly7.png" type="Texture" id=21]
+[ext_resource path="res://Rocket/Assets/Model 3/starting4.png" type="Texture" id=22]
+[ext_resource path="res://Rocket/Assets/Model 3/starting2.png" type="Texture" id=23]
+[ext_resource path="res://Rocket/Assets/Model 3/starting1.png" type="Texture" id=24]
+[ext_resource path="res://Rocket/Assets/Model 3/Standby.png" type="Texture" id=25]
+[ext_resource path="res://Rocket/Assets/Model 3/nitro1.png" type="Texture" id=26]
+[ext_resource path="res://Rocket/Assets/Model 3/nitro2.png" type="Texture" id=27]
+[ext_resource path="res://Rocket/Assets/Model 3/starting3.png" type="Texture" id=28]
+[ext_resource path="res://Rocket/Assets/Model 3/nitro3.png" type="Texture" id=29]
+[ext_resource path="res://Fonts/BloggerSans.ttf" type="DynamicFontData" id=30]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 13 ) ],
+"loop": true,
+"name": "Nitro",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 1 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "Fly",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 11 ), ExtResource( 6 ), ExtResource( 12 ) ],
+"loop": true,
+"name": "Start",
+"speed": 4.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "Standby",
+"speed": 3.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 26 ), ExtResource( 27 ), ExtResource( 29 ) ],
+"loop": true,
+"name": "Nitro",
+"speed": 3.0
+}, {
+"frames": [ ExtResource( 16 ), ExtResource( 17 ), ExtResource( 19 ), ExtResource( 18 ), ExtResource( 20 ), ExtResource( 21 ) ],
+"loop": true,
+"name": "Fly",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 24 ), ExtResource( 23 ), ExtResource( 28 ), ExtResource( 22 ) ],
+"loop": true,
+"name": "Start",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 25 ) ],
+"loop": true,
+"name": "Standby",
+"speed": 5.0
+} ]
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends CanvasLayer
+
+var menu_shown = false
+var first_rocket = false
+
+func _process(delta):
+	$Label2.set_text(var2str(Engine.get_frames_per_second()))
+
+
+func _on_MainMenu_pressed():
+	get_tree().change_scene(\"res://Scenes/MainMenu.tscn\")
+
+
+func _on_ChangeAnim_pressed():
+	if first_rocket:
+		get_node(\"../Anim1\").show()
+		get_node(\"../Anim2\").hide()
+		first_rocket = false
+		return 0 
+	if not first_rocket:
+		get_node(\"../Anim2\").show()
+		get_node(\"../Anim1\").hide()
+		first_rocket = true
+
+
+func _on_Options_pressed():
+	if menu_shown:
+		$InGameOptions.hide()
+		menu_shown = false
+		return 0 
+	if not menu_shown:
+		$InGameOptions.show()
+		menu_shown = true
+
+
+func _on_Button_pressed():
+	if get_node(\"/root/Music\").play_music == 0:
+		get_node(\"/root/Music\").play_music = 1
+		print(\"1\")
+		return 0
+		
+	if get_node(\"/root/Music\").play_music == 1:
+		get_node(\"/root/Music\").play_music = 0
+		print(\"0\")
+		
+
+"
+
+[sub_resource type="DynamicFont" id=4]
+size = 40
+font_data = ExtResource( 30 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 35
+font_data = ExtResource( 30 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 35
+font_data = ExtResource( 30 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 25
+use_filter = true
+font_data = ExtResource( 30 )
+
+[node name="Rocket" type="KinematicBody2D"]
+script = ExtResource( 14 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_enabled = true
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[node name="Anim1" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 0, 20 )
+scale = Vector2( 0.148148, 0.12963 )
+frames = SubResource( 1 )
+animation = "Start"
+frame = 1
+playing = true
+
+[node name="Anim2" type="AnimatedSprite" parent="."]
+position = Vector2( 0, 16 )
+scale = Vector2( 0.118519, 0.118519 )
+frames = SubResource( 2 )
+animation = "Start"
+frame = 1
+playing = true
+
+[node name="Model2Collision" type="CollisionPolygon2D" parent="."]
+build_mode = 1
+polygon = PoolVector2Array( 0, -48, -15.417, -30.7467, -27, -11, -32, 6, -28, 24, -28, 48, -32, 56, 0, 52, 32, 56, 28, 48, 28, 24, 32, 6, 26, -11, 14, -31 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = SubResource( 3 )
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+margin_top = 574.0
+margin_right = 40.0
+margin_bottom = 588.0
+text = "FPS:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+margin_left = 32.0
+margin_top = 574.0
+margin_right = 72.0
+margin_bottom = 588.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Phone Controls" parent="CanvasLayer" instance=ExtResource( 15 )]
+
+[node name="InGameOptions" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -456.0
+margin_right = 456.0
+color = Color( 0, 0, 0, 0.784314 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChangeAnim" type="Button" parent="CanvasLayer/InGameOptions"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -164.0
+margin_top = -88.0
+margin_right = 164.0
+margin_bottom = -43.0
+focus_mode = 0
+custom_fonts/font = SubResource( 4 )
+enabled_focus_mode = 0
+text = "Change Your Rocket"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainMenu" type="Button" parent="CanvasLayer/InGameOptions"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -216.0
+margin_top = -92.0
+margin_right = -50.0
+margin_bottom = -51.0
+focus_mode = 0
+custom_fonts/font = SubResource( 5 )
+enabled_focus_mode = 0
+text = "Main Menu"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="CanvasLayer/InGameOptions"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -102.5
+margin_top = 20.0
+margin_right = 102.5
+margin_bottom = 61.0
+focus_mode = 0
+custom_fonts/font = SubResource( 6 )
+enabled_focus_mode = 0
+text = "Music ON/OFF"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" type="Button" parent="CanvasLayer"]
+margin_right = 87.0
+margin_bottom = 31.0
+focus_mode = 0
+custom_fonts/font = SubResource( 7 )
+enabled_focus_mode = 0
+text = "Options"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="CanvasLayer/InGameOptions/ChangeAnim" to="CanvasLayer" method="_on_ChangeAnim_pressed"]
+[connection signal="pressed" from="CanvasLayer/InGameOptions/MainMenu" to="CanvasLayer" method="_on_MainMenu_pressed"]
+[connection signal="pressed" from="CanvasLayer/InGameOptions/Button" to="CanvasLayer" method="_on_Button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Options" to="CanvasLayer" method="_on_Options_pressed"]
